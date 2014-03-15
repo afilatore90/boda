@@ -1,0 +1,209 @@
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ CLASES DE AYUDA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+//Cubic Biezer
+// Cubic
+$easeInCubic:  cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$easeOutCubic:  cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeInOutCubic :  cubic-bezier(0.645, 0.045, 0.355, 1.000);
+
+// Circ
+$easeInCirc:  cubic-bezier(0.600, 0.040, 0.980, 0.335);
+$easeOutCirc:  cubic-bezier(0.075, 0.820, 0.165, 1.000);
+$easeInOutCirc:  cubic-bezier(0.785, 0.135, 0.150, 0.860);
+
+// Expo
+$easeInExpo:  cubic-bezier(0.950, 0.050, 0.795, 0.035);
+$easeOutExpo:  cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$easeInOutExpo:  cubic-bezier(1.000, 0.000, 0.000, 1.000);
+
+// Quad
+$easeInQuad:  cubic-bezier(0.550, 0.085, 0.680, 0.530);
+$easeOutQuad:  cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$easeInOutQuad:  cubic-bezier(0.455, 0.030, 0.515, 0.955);
+
+// Quart
+$easeInQuart:  cubic-bezier(0.895, 0.030, 0.685, 0.220);
+$easeOutQuart:  cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$easeInOutQuart :  cubic-bezier(0.770, 0.000, 0.175, 1.000);
+
+// Quint
+$easeInQuint:  cubic-bezier(0.755, 0.050, 0.855, 0.060);
+$easeOutQuint:  cubic-bezier(0.230, 1.000, 0.320, 1.000);
+$easeInOutQuint :  cubic-bezier(0.860, 0.000, 0.070, 1.000);
+
+// Sine
+$easeInSine:  cubic-bezier(0.470, 0.000, 0.745, 0.715);
+$easeOutSine:  cubic-bezier(0.390, 0.575, 0.565, 1.000);
+$easeInOutSine:  cubic-bezier(0.445, 0.050, 0.550, 0.950);
+
+// Back
+$easeInBack:  cubic-bezier(0.600, -0.280, 0.735, 0.045);
+$easeOutBack:  cubic-bezier(0.000, 1.650, 0.550, 1.650);
+$easeInOutBack:  cubic-bezier(0.680, -0.550, 0.265, 1.550);
+
+
+@mixin boton($height:2rem, $width: auto, $padding: 0 1rem){
+  display: block; height: $height; line-height: $height; width: $width; padding: $padding; font-size: 1em; border-radius: 0; text-align: center;
+  &:active{
+    box-shadow: 0 0 2px rgba(0,0,0,0.5) inset;
+  }
+}
+
+// Animacion
+@mixin animado($time:0.5s)      {
+  -webkit-transition: all $time ease-out;        
+  -moz-transition:    all $time ease-out;         
+  -ms-transition:     all $time ease-out;        
+  -o-transition:      all $time ease-out;         
+  transition:         all $time ease-out;
+}
+
+
+//Transition
+@mixin transition( $property:all, $time:0.5s, $ease:ease-out){
+  -webkit-transition: $property $time $ease;        
+  -moz-transition:    $property $time $ease;         
+  -ms-transition:     $property $time $ease;        
+  -o-transition:      $property $time $ease;         
+  transition:         $property $time $ease;
+}
+
+
+// Animation
+@mixin animation($name,$duration,$count,$function,$direction,$fill,$delay){
+  -webkit-animation-name: $name;
+  -webkit-animation-duration: $duration;
+  -webkit-animation-iteration-count: $count;
+  -webkit-animation-timing-function: $function;
+  -webkit-animation-direction: $direction;
+  -webkit-animation-fill-mode:$fill;
+  -webkit-animation-delay:$delay;
+  -moz-animation-name: $name;
+  -moz-animation-duration: $duration;
+  -moz-animation-iteration-count: $count;
+  -moz-animation-timing-function: $function;
+  -moz-animation-direction: $direction;
+  -moz-animation-fill-mode:$fill;
+  -moz-animation-delay:$delay;
+  -ms-animation-name: $name;
+  -ms-animation-duration: $duration;
+  -ms-animation-iteration-count: $count;
+  -ms-animation-timing-function: $function;
+  -ms-animation-direction: $direction;
+  -ms-animation-fill-mode:$fill;
+  -ms-animation-delay:$delay;
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: $count;
+  animation-timing-function: $function;                                
+  animation-direction: $direction;
+  animation-fill-mode:$fill;
+  animation-delay:$delay;
+}
+
+
+// Transform
+@mixin transform($string) {
+  -webkit-transform: $string;
+     -moz-transform: $string;
+      -ms-transform: $string;
+       -o-transform: $string;
+          transform: $string;
+}
+@mixin transformOrigin($string) {
+  -webkit-transform-origin: $string;
+     -moz-transform-origin: $string;
+      -ms-transform-origin: $string;
+       -o-transform-origin: $string;
+          transform-origin: $string;
+}
+
+@mixin picoTop($ancho){
+  @include transform(rotate(45deg)); width: $ancho; height: $ancho; left: 50%; top: -$ancho/2; margin: 0 0 0 -$ancho/2; position: absolute;
+}
+
+@mixin picoBottom($ancho){
+  @include transform(rotate(45deg)); width: $ancho; height: $ancho; left: 50%; bottom: -$ancho/2; margin: 0 0 0 -$ancho/2; position: absolute;
+}
+
+@mixin picoLeft($ancho){
+  @include transform(rotate(45deg)); width: $ancho; height: $ancho; left: -$ancho/2; top: 50%; margin: -$ancho/2 0 0 0; position: absolute;
+}
+
+@mixin picoRight($ancho){
+  @include transform(rotate(45deg)); width: $ancho; height: $ancho; right: -$ancho/2; top: 50%; margin: -$ancho/2 0 0 0; position: absolute;
+}
+
+@mixin bfv(){
+-webkit-backface-visibility:hidden;
+-moz-backface-visibility:hidden;
+-ms-backface-visibility:hidden;
+-o-backface-visibility:hidden;
+backface-visibility:hidden;
+}
+@mixin perspective($number){
+-webkit-perspective: $number;
+perspective: $number;
+}
+
+// Drop shadows
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+          box-shadow: $shadow;
+}
+
+// Box sizing
+@mixin box-sizing($box-model) {
+  -webkit-box-sizing: $box-model; // Safari <= 5
+     -moz-box-sizing: $box-model; // Firefox <= 19
+          box-sizing: $box-model;
+}
+
+@mixin no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// Degradado
+@mixin gradient($origin: left, $start: #ffffff, $stop: #000000) {
+    background-color: $start;
+    background-image: -webkit-linear-gradient($origin, $start, $stop);
+    background-image: -moz-linear-gradient($origin, $start, $stop);
+    background-image: -o-linear-gradient($origin, $start, $stop);
+    background-image: -ms-linear-gradient($origin, $start, $stop);
+    background-image: linear-gradient($origin, $start, $stop);
+}
+
+// Clearfix
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+    visibility: hidden;
+    font-size: 0;
+    height: 0;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// Retina
+@mixin retina-image($file-1x, $file-2x) {
+  background-image: url($file-1x); background-size: contain;
+  @media
+  only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (   min--moz-device-pixel-ratio: 1.5),
+  only screen and (     -o-min-device-pixel-ratio: 1.5),
+  only screen and (        min-device-pixel-ratio: 1.5),
+  only screen and (                min-resolution: 192dpi),
+  only screen and (                min-resolution: 2dppx) {
+    background-image: url($file-2x);
+  }
+}

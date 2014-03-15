@@ -1,0 +1,382 @@
+@import "reset";
+@import "fonts";
+@import "mixin";
+@import "grid";
+
+/* COLORES */
+$gris-oscuro : #1b1919;
+$gris : #6e6e6e;
+$texto : #424242;
+$naranja: #ffbd11;
+$azul: #0266C8;
+$oro : #b0a47e;
+$rojo: #F90101;
+$amarillo: #A07743;
+$verde: #00933B;
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ HTML / BODY / HACHES / WRAP / BOTON ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+*{ letter-spacing: 0.1em;}
+html , body { 
+    width: 100%; height: 100%;
+}
+html                                    { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;}
+body                                    { font-family: 'Muli'; font-size: 1em; line-height:1; background: #FFF; -webkit-font-smoothing: antialiased;}
+h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-weight: 400; color: #202020;}
+
+#wrap { 
+  height: 100%; 
+}
+
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ GENERALES ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+.bg-hero{
+  position: absolute; z-index: 0; top: 0; left: 0; width: 100%; height: 100%; background: url('img/idioma/bg_hero.jpg'); background-size: cover;
+}
+.content-hero{
+  position: absolute; z-index: 1; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;
+}
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ IDIOMAS SECTION ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#idiomas-section{
+  position: fixed; z-index: 10; top: 0; left: 0; width: 100%; height: 100%;
+  .bg-hero{
+
+  }
+  .content-hero{
+    > div{ position: absolute;}
+    .matrimonio{
+      width: 100%; height: 100%;
+      .el{ position: absolute; bottom: -5em; left: -15em; }
+      .ella{ position: absolute; left: auto; right: -4em; bottom: -5em; }
+    }
+    .logo{
+      width: 396px; height: 408px; top: 50%; left: 50%; @include transformOrigin(50% 50%); @include transform(translate(-50%,-75%)); background: url('img/idioma/logo_boda_blanco.png'); background-size: contain;
+      // @include animation(scale,200ms,1,$easeOutBack,normal,forwards,1s);
+
+    }
+    .botonera{
+      width: 100%; height: 100%; z-index: 10;
+      .btn-idioma{
+        width: 323px; height: 236px; text-indent: -9999px; position: absolute; top: 50%; margin: 0 0 50px; cursor: pointer; z-index: 10;
+        &.es{ background: url('img/idioma/bienvenidos_castellano.png'); right: 50%; @include transform(translate(-100%,-75%));}
+        &.fr{ background: url('img/idioma/bienvenidos_frances.png'); left: 50%; @include transform(translate(100%,-75%));}
+        button{
+          position: absolute; top: 100%; left: 50%; @include transition(width,0.2s,$easeOutBack); @include transform(translate(-50%,0%)); width: 50%; height: 50px; line-height: 50px; color: #FFF; font-family: "Amatic SC"; background: $naranja; font-size: 2em; border-radius: 5px; text-shadow: 0 2px 1px rgba(0,0,0,1);
+        }
+        &:hover{
+          button{
+            width: 54%; background: darken($naranja,10);             
+          }
+        }          
+      }
+
+    }
+  }
+}
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ HEADER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#main-header{
+  position: absolute; top: 0; left: 0; width: 100%; z-index: 9;
+  nav{
+    position: relative; padding: 1em 0 0;
+    h1{
+      height: 200px; width: 200px; text-indent: -9999px; background: url('img/logo_boda_amarillo.png'); background-size: contain; position: absolute; left: 50%;  @include transform(translate(-50%,0%));
+      a{ display: block; height: 100%;}
+    }
+    ul{
+      &.left{ left: 50%; @include transform(translate(-125%,0%));}
+      &.right{ right: 50%; @include transform(translate(122.5%,0%));}
+      position: absolute; display: inline-block;
+      li{
+        position: relative; margin: 5em 0 0 1.5em; padding: 0 0 0 1.5em; float: left;
+        &.h1{ margin: 0 1em; padding: 0; &:after{ display: none; }}
+        &:first-child,&.first-child{ margin: 5em 0 0 0; padding: 0; &:after{ display: none; } }
+        &:after{
+          content: ""; position: absolute; left: 0; top: 50%; width: 1px; height: 10px; margin: -5px 0 0; background: #000;
+        }
+        >a{
+          display: block; font-family: "Amatic SC"; color: #000; font-size: 1.5em;
+          span{
+
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ HOME ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#aside-nav{
+  position: fixed; top: 50%; right: 4em; @include transform(translate(0,-50%)); z-index: 20;
+  ul{
+    li{
+      position: relative; margin: 1em 0 0; @include bfv();
+      &:first-child{ margin: 0;}
+      p{ 
+        opacity: 0; visibility: hidden; white-space: nowrap; position: absolute; right: 100%; top: 50%; @include transform(translate(-20px,-50%)); @include transition(all,0.3s,$easeOutSine); background: $naranja; color: #FFF; text-transform: uppercase; padding: 0.5em 1.25em; font-size: 0.75em;
+        &:after{
+          content: ""; @include picoRight(8px); background: $naranja;
+        }
+        
+      }
+      span{
+        width: 12px; height: 12px; background: $gris; border-radius: 50%; display: block; cursor: pointer; box-shadow: 0 0 0 0px $naranja inset; @include transition(box-shadow,0.3s,$easeOutSine);
+
+      }
+      &:hover,&.activo{
+        p{
+          opacity: 1; visibility: visible; @include transform(translate(-10px,-50%));
+        }
+        span{
+          box-shadow: 0 0 0 6px $naranja inset;
+        }
+      }
+    }
+  }
+}
+
+#anima-section0{
+  article{
+    text-align: center; font-size: 1em; position: absolute; width: 100%; top:270px;
+    h2{
+      text-transform: uppercase; color: $naranja; font-size: 3.5em; position: relative; display: block; float: left; margin: 0 auto; left: 50%; @include transform(translate(-50%,0%));
+      span{
+        position: absolute; top: 0%; font-size: 2.5em; font-weight: 300; top: 50%; @include transform(translate(0%,-60%));
+        &.left{ left: -0.5em;}
+        &.right{ right: -0.5em;}
+      }
+    }
+    h3{
+      font-size: 2em; padding: 0.5em 0; clear: both;
+    }
+    h4{
+      text-transform: uppercase; font-size: 1.25em; position: relative; display: block; float: left; margin: 0 auto; left: 50%; @include transform(translate(-50%,0%));
+      &:after,&:before{
+        content: ""; display: block; position: absolute; width: 40px; height: 2px; top: 50%; margin: -1px 0 0; background: $naranja;
+      }
+      &:after{ left: 110%; }
+      &:before{ right: 110%; }
+    }
+    h5{
+      clear: both; font-size: 1em; text-transform: uppercase; padding: 2em 0 0em;
+    }
+    p{
+      font-size: 0.7em; padding: 1em 0 0; max-width: 650px; margin: 0 auto; line-height: 2;
+    }
+  }
+  // animation($name,$duration,$count,$function,$direction,$fill,$delay)
+  .btn-scroll-box{
+    position: absolute; z-index: 2; bottom: 0; left: 50%; @include transform(translate(-50%,0)); width: 112px; height: 62px; background: #CCC; cursor: pointer;
+    &:before{
+      content: ""; display: block; position: absolute; top: -6px; left: 0; width: 100%; height: 12px; border-radius: 50%; background: #CCC;
+    }
+    .text{
+      z-index: 3; width: 256px; height: 77px; background: url(img/home/intro/texto_scroll.png); position: absolute; top: -200%; left: 50%; @include transform(translate(-50%,0));            
+    }
+    .arrow{
+      @include animation(top_bottom,0.75s,infinite,$easeOutSine,alternate,normal,0); 
+      z-index: 3; width: 113px; height: 70px; background: url(img/home/intro/flecha_scroll.png); position: absolute; top: -125%; left: 0;    
+    }
+    .hole{
+      z-index: 4; width: 113px; height: 62px; background: url(img/home/intro/agujero_scroll.png); position: absolute; top: 0; left: 0;
+      &:after{
+        content: ""; position: absolute; top: 100%; height: 100%; width: 100%; left: 0; background: #FFF;
+      }
+    }
+  }
+}
+
+.anima-section{
+  overflow: hidden;
+  .escenario{
+    position: absolute; top: 0; z-index: 2;
+    &.left{
+      left: 10%;
+    }    
+    &.right{
+      right: 10%;
+    }
+  }
+  .text{
+    position: absolute; top: 50%; @include transform(translate(0px,-50%));
+    &.left{
+       left: 15%; width: 25%; text-align: right;
+    }    
+    &.right{
+      right: 15%; width: 25%; text-align: left;
+    }
+    h2{
+      font-family: "Amatic SC"; color: #000; font-size: 4em;
+      span{ font-size: 0.5em; display: block;}
+    }
+    p{
+      font-size: 0.7em; padding: 1em 0 0; max-width: 650px; margin: 0 auto; line-height: 2;
+    }
+  }
+
+}
+
+
+
+#anima-section1{
+  // background: #000;
+  .farola{
+    position: absolute; bottom: 0; right: 0; height: 100%;
+  }
+  .arbol{
+    position: absolute; bottom: 0; left: 0; height: 100%; z-index: 2;
+  }
+  .escenario1{
+    position: absolute; left: 10%; top: 0%; z-index: 1;
+  }
+  .hojas-box{
+    position: absolute; width: 100%; height: 100%;
+    li{
+      position: absolute; top: 0;
+      &.hoja1{
+        left: 50%;
+      }
+      &.hoja2{
+        left: 0;
+      }
+      &.hoja3{
+        left: 20%; bottom: 0%; 
+      }
+    }
+  }
+}
+#anima-section2{
+  .avion{
+    position: absolute; top: 0; left: 100%; width: 136px; height: 72px; z-index: 8;
+  }
+}
+#anima-section3{
+  .ciudad-box{
+    li{
+      position: absolute; bottom: 0; width: 100%;
+      img{ width: 100%;}
+    }
+  }
+  .sol{
+    width: 240px; height: 225px; position: absolute; top: 0; left: 0; @include transform(translate(-50%,0));
+    // &.skrollable-after{ display: none;}
+  }
+}
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ INPUTS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+.n-input{
+  display: block; overflow: hidden; clear: both; padding: 0 0 1.5em;
+  span{
+    color: #666; padding: 0 0 0.25rem; display: block; font-size: 0.875em;
+    @media (min-width: 1300px) {
+      position: absolute; line-height: 33px;
+    }
+  }
+  input{
+    border: 1px solid #CCC; display: block; width: 100%; padding: 0.5em 1em; border-radius: 0px; margin: 0; font-size: 0.75em;
+    @media (min-width: 1300px) {
+      width: 80%; margin: 0 0 0 20%;
+    }
+  }
+  &.error{
+    input{ border: 1px solid darken(#F00, 10%);}
+  }
+}
+.t-input{
+  display: block; overflow: hidden; clear: both; padding: 0 0 1.5em;
+  span{
+    color: #666; padding: 0 0 0.25rem; display: block; font-size: 0.875em;
+    @media (min-width: 1300px) {
+      position: absolute; line-height: 33px;
+    }
+  }
+  textarea{
+    border: 1px solid #CCC; display: block; width: 100%; padding: 1em; border-radius: 0px; margin: 0; min-height: 10em; font-size: 0.75em; max-width: 100%;
+    @media (min-width: 1300px) {
+      width: 80%; margin: 0 0 0 20%; max-width: 80%;
+    }
+  }
+  &.error{
+    textarea{ border: 1px solid darken(#F00, 10%);}
+  }
+}
+.checkContainer {
+  position: relative; overflow: hidden; display: block; padding: 0 0 1.5em; @include clearfix(); @include no-select();
+  .name { color: #666; cursor: pointer;}
+  input[type=checkbox] {
+    position: absolute; top: -9999px; left: -9999px; visibility: hidden; opacity: 0; 
+  }
+  input[type=checkbox] + label {
+    font-size: 1em; position: relative; padding: 0 0 0 60px; cursor: pointer; line-height: 60px;
+    .checkSquare {
+      width: 50px; height: 50px; position: absolute; background: #FFF; top: -50%; left: 1px; border: 1px solid #666;
+      > span {
+        display: none; width: 40px; height: 40px; margin: 4px; top: 0;
+        &:before{
+          content: "\e600"; font-family: 'icomoon'; color: #666; width: 40px; height: 40px; line-height: 40px; display: block; text-align: center; font-size: 2em;
+        }
+      }
+    }
+    span {
+      font-size: 0.75em; position: relative; top: 4px; color: #666;
+      a{
+        color: #000;
+      }
+    }
+  }
+  &.error{
+    input[type=checkbox] + label .checkSquare{
+      border-color: darken(#F00, 10%);
+    }
+  }
+  input[type=checkbox]:checked + label .checkSquare > span {
+    display: block; 
+  }
+  &.threecol{
+    @include col(1,3,2em);
+  }
+}
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ ANIMATE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+@-ms-keyframes top_bottom { from { -ms-transform: translate(0,25%); } to { -ms-transform: translate(0,0%);}}
+@-moz-keyframes top_bottom { from { -moz-transform: translate(0,25%); } to { -moz-transform: translate(0,0%);}}
+@-webkit-keyframes top_bottom { from { -webkit-transform: translate(0,25%); } to { -webkit-transform: translate(0,0%);}}
+@keyframes top_bottom { from { transform: translate(0,25%); } to { transform: translate(0,0%);}}
+
+
+@-ms-keyframes spin { from { -ms-transform: rotate(0deg); } to { -ms-transform: rotate(360deg);}}
+@-moz-keyframes spin { from { -moz-transform: rotate(0deg); } to { -moz-transform: rotate(360deg);}}
+@-webkit-keyframes spin { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg);}}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg);}}
+
+
+@-ms-keyframes scale { from { -ms-transform: scale(0.8) translate(-50%,-75%); opacity: 0; } to { -ms-transform: scale(1) translate(-50%,-75%); opacity: 1;}}
+@-moz-keyframes scale { from { -moz-transform: scale(0.8) translate(-50%,-75%); opacity: 0; } to { -moz-transform: scale(1) translate(-50%,-75%); opacity: 1;}}
+@-webkit-keyframes scale { from { -webkit-transform: scale(0.8) translate(-50%,-75%); opacity: 0; } to { -webkit-transform: scale(1) translate(-50%,-75%); opacity: 1;}}
+@keyframes scale { from { transform: scale(0.8) translate7(50%,-50%); opacity: 0; } to { transform: scale(1) translate(-50%,-75%); opacity: 1;}}
+
+
