@@ -82,7 +82,7 @@ $pagename = $pagename["post_name"];
 		<nav>
 			<h1><a href="/boda"><?= Helper::tr("logo") ?></a></h1>
 			<ul class="left">
-				<li><a href="/boda"><span></span><?= Helper::tr("confirma-asistencia") ?></a></li>
+				<li><a href="/boda/confirmar-asistencia"><span></span><?= Helper::tr("confirma-asistencia") ?></a></li>
 				<li><a href="/boda"><span></span><?= Helper::tr("plan-del-dia") ?></a></li>
 				<li><a href="/boda"><span></span><?= Helper::tr("testigos") ?></a></li>
 			</ul>

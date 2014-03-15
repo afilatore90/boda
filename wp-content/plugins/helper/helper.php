@@ -12,9 +12,8 @@ ini_set("display_errors", 1);
 error_reporting(E_ERROR);
 set_time_limit(0);
 
-/**
-* Productos
-*/
+
+
 class Helper{
 	private static $elidioma = 'es';
 	function __construct() {

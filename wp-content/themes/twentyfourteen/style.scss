@@ -17,7 +17,6 @@ $verde: #00933B;
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++ HTML / BODY / HACHES / WRAP / BOTON ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-*{ letter-spacing: 0.1em;}
 html , body { 
     width: 100%; height: 100%;
 }
@@ -41,7 +40,9 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
 .content-hero{
   position: absolute; z-index: 1; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden;
 }
-
+.anima-section-relative{
+  padding: 15em 0 0;
+}
 
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -71,7 +72,7 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
         &.es{ background: url('img/idioma/bienvenidos_castellano.png'); right: 50%; @include transform(translate(-100%,-75%));}
         &.fr{ background: url('img/idioma/bienvenidos_frances.png'); left: 50%; @include transform(translate(100%,-75%));}
         button{
-          position: absolute; top: 100%; left: 50%; @include transition(width,0.2s,$easeOutBack); @include transform(translate(-50%,0%)); width: 50%; height: 50px; line-height: 50px; color: #FFF; font-family: "Amatic SC"; background: $naranja; font-size: 2em; border-radius: 5px; text-shadow: 0 2px 1px rgba(0,0,0,1);
+          position: absolute; top: 100%; left: 50%; @include transition(width,0.2s,$easeOutSine); @include transform(translate(-50%,0%)); width: 50%; height: 50px; line-height: 50px; color: #FFF; font-family: "Amatic SC"; background: $naranja; font-size: 2em; text-shadow: 0 2px 1px rgba(0,0,0,1);
         }
         &:hover{
           button{
@@ -91,12 +92,12 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
   nav{
     position: relative; padding: 1em 0 0;
     h1{
-      height: 200px; width: 200px; text-indent: -9999px; background: url('img/logo_boda_amarillo.png'); background-size: contain; position: absolute; left: 50%;  @include transform(translate(-50%,0%));
+      height: 200px; width: 200px; z-index: 2; text-indent: -9999px; background: url('img/logo_boda_amarillo.png'); background-size: contain; position: absolute; left: 50%;  @include transform(translate(-50%,0%));
       a{ display: block; height: 100%;}
     }
     ul{
-      &.left{ left: 50%; @include transform(translate(-125%,0%));}
-      &.right{ right: 50%; @include transform(translate(122.5%,0%));}
+      &.left{ left: 50%; @include transform(translate(-100%,0%)); padding: 0 130px 0 0;}
+      &.right{ right: 50%; @include transform(translate(100%,0%)); padding: 0 0 0 140px;}
       position: absolute; display: inline-block;
       li{
         position: relative; margin: 5em 0 0 1.5em; padding: 0 0 0 1.5em; float: left;
@@ -128,7 +129,7 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
       position: relative; margin: 1em 0 0; @include bfv();
       &:first-child{ margin: 0;}
       p{ 
-        opacity: 0; visibility: hidden; white-space: nowrap; position: absolute; right: 100%; top: 50%; @include transform(translate(-20px,-50%)); @include transition(all,0.3s,$easeOutSine); background: $naranja; color: #FFF; text-transform: uppercase; padding: 0.5em 1.25em; font-size: 0.75em;
+        opacity: 0; visibility: hidden; font-weight: 700; white-space: nowrap; position: absolute; right: 100%; top: 50%; @include transform(translate(-20px,-50%)); @include transition(all,0.3s,$easeOutSine); background: $naranja; color: #FFF; text-transform: uppercase; padding: 0.5em 1.25em; font-size: 0.75em;
         &:after{
           content: ""; @include picoRight(8px); background: $naranja;
         }
@@ -280,22 +281,57 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
 
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ CONFIRMAR ASISTENCIA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#confirmar-form{
+  fieldset{
+    padding: 2em 2em 0; margin: 2em 0 0; border-top: 1px solid #CCC;
+    &:first-child{ padding: 0 2em; margin: 0; border-top: none;}
+    >h3{
+      text-transform: uppercase; padding: 0 0 0.5em; font-family: "Amatic SC"; color: #000; font-size: 3em;
+    }
+  }
+  #asistentes-ul{
+    @include row(4em);
+    li{
+      @include col(1,3,4em); padding-top: 1.5em;
+      h3{
+        padding: 0 0 0.5em; margin: 0 0 1em; text-transform: uppercase; font-size: 0.75em; border-bottom: 1px solid #CCC;
+      }
+      label{ padding: 0;}
+    }
+  }
+  #form-submit{
+    width: 250px; font-size: 2em;
+  }
+}
+
+
+
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++ INPUTS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+.boton{
+  height: 50px; line-height: 50px; color: #FFF; font-family: "Amatic SC"; background: $naranja; font-size: 2em; border-radius: 0px; text-shadow: 0 2px 1px rgba(0,0,0,1); padding: 0;  
+  &:hover{
+    background: darken($naranja,10);             
+  }          
+}
 
 .n-input{
-  display: block; overflow: hidden; clear: both; padding: 0 0 1.5em;
+  display: block; overflow: hidden; clear: both; padding: 1.5em 0 0;
+  &.max{
+    max-width: 400px;
+  }
+  &:first-child{ padding: 0}
   span{
-    color: #666; padding: 0 0 0.25rem; display: block; font-size: 0.875em;
-    @media (min-width: 1300px) {
-      position: absolute; line-height: 33px;
-    }
+    color: #666; padding: 0 0 0.25rem; display: block; font-size: 0.75em;
   }
   input{
     border: 1px solid #CCC; display: block; width: 100%; padding: 0.5em 1em; border-radius: 0px; margin: 0; font-size: 0.75em;
-    @media (min-width: 1300px) {
-      width: 80%; margin: 0 0 0 20%;
-    }
   }
   &.error{
     input{ border: 1px solid darken(#F00, 10%);}
@@ -304,42 +340,32 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
 .t-input{
   display: block; overflow: hidden; clear: both; padding: 0 0 1.5em;
   span{
-    color: #666; padding: 0 0 0.25rem; display: block; font-size: 0.875em;
-    @media (min-width: 1300px) {
-      position: absolute; line-height: 33px;
-    }
+    color: #666; padding: 0 0 0.25rem; display: block; font-size: 0.75em;
   }
   textarea{
     border: 1px solid #CCC; display: block; width: 100%; padding: 1em; border-radius: 0px; margin: 0; min-height: 10em; font-size: 0.75em; max-width: 100%;
-    @media (min-width: 1300px) {
-      width: 80%; margin: 0 0 0 20%; max-width: 80%;
-    }
   }
   &.error{
     textarea{ border: 1px solid darken(#F00, 10%);}
   }
 }
 .checkContainer {
-  position: relative; overflow: hidden; display: block; padding: 0 0 1.5em; @include clearfix(); @include no-select();
-  .name { color: #666; cursor: pointer;}
+  position: relative; overflow: hidden; display: block; padding: 0.5em 0 0; @include clearfix(); @include no-select();
+  .name { 
+    color: #666; cursor: pointer; font-size: 0.75em; line-height: 22px; padding: 0 0 0 30px;
+  }
   input[type=checkbox] {
     position: absolute; top: -9999px; left: -9999px; visibility: hidden; opacity: 0; 
   }
   input[type=checkbox] + label {
     font-size: 1em; position: relative; padding: 0 0 0 60px; cursor: pointer; line-height: 60px;
     .checkSquare {
-      width: 50px; height: 50px; position: absolute; background: #FFF; top: -50%; left: 1px; border: 1px solid #666;
+      width: 20px; height: 20px; position: absolute; background: #FFF; top: 0%; left: 0px; border: 1px solid #CCC;
       > span {
-        display: none; width: 40px; height: 40px; margin: 4px; top: 0;
+        display: none; width: 20px; height: 20px; top: 0;
         &:before{
-          content: "\e600"; font-family: 'icomoon'; color: #666; width: 40px; height: 40px; line-height: 40px; display: block; text-align: center; font-size: 2em;
+          content: "\e600"; font-family: 'icomoon'; color: #666; width: 100%; height: 100%; line-height: 20px; margin: -1px; display: block; text-align: center; font-size: 0.875em;
         }
-      }
-    }
-    span {
-      font-size: 0.75em; position: relative; top: 4px; color: #666;
-      a{
-        color: #000;
       }
     }
   }
