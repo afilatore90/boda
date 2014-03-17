@@ -1,6 +1,22 @@
 var url_ajax = '/boda/wp-content/plugins/helper/helper-ajax.php', anchoWindowv;
-var util;
-var idioma;
+var util, modal, idioma;
+
+var lista_messages = {
+  "correct-confirm" : "<h2>¡¡¡Correcto!!!</h2><h3>Has confirmado la asistencia correctamente</h3><p>Ahora puedes reservar el hotel <a href='#'>aquí</a> y hecha un vistazo al <a href='#'>plan del día</a></p>",
+  "error" : "<h2>Paso 3</h2><h3>Eres una mierda pinchada en un palo</h3>",
+  "info" : "<h2>Paso 1</h2><h3>Introduce los datos de la recarga</h3>",
+}
+// Modal
+var modal_object_confirm = {
+  modal: '#modal', //id of the modal (Required)
+  overlay : '#modal-overlay', //id of the overlay (Required)
+  btnClose : '#btn-close', //id of the btn (Required)
+  messages : lista_messages,
+  htmlIn : false, //Booleano
+}
+
+
+
 $(document).ready(function(){
 	init();
 	initMenu();
@@ -15,6 +31,7 @@ var initialize = {
 function init () {
 
 	util = new Utiles();
+	modal = new Modal(modal_object_confirm);
 	idioma = new Idioma(lang,'#idiomas-section');
 
 	//init
@@ -51,12 +68,12 @@ function Menu (_aside_header, _header_blur,_hero_img) {
 
 // HOME
 var lista_escenas = [
-	{ "name": "Intro"},
-	{ "name": "París"},
-	{ "name": "Colegio"},
-	{ "name": "Marruecos"},
-	{ "name": "Fútbol"},
-	{ "name": "Estudiar"},
+	{ "name": "Intro" },
+	{ "name": "París" },
+	{ "name": "Colegio" },
+	{ "name": "Marruecos" },
+	{ "name": "Fútbol" },
+	{ "name": "Estudiar" },
 ]
 function initHome () {
 	util.setAlto('#idiomas-section');
@@ -71,8 +88,8 @@ function initHome () {
 	    },	
 	});
 	var home = new Home(lista_escenas,'#aside-ul');
-	$('#btn-scroll').on('click',home.scroll_to);
-	$('#aside-ul li').on('click',home.scroll_to);
+	$('#btn-scroll').on('click',function(){ home.scroll_to($(this).data('scroll_to'))});
+	$('#aside-ul li').on('click',function(){ home.scroll_to($(this).data('scroll_to'))});
 }
 
 
@@ -83,25 +100,67 @@ function Home (_lista_escenas,_nav) {
 	this.lista_escenas = _lista_escenas;
 	this.nav = _nav;
 	this.doc = $(document);
-	this.scroll_to = function () {
+	this.indice = 0;
+	this.scrollAnterior = 0;
+
+	this.scroll_to = function (where) {
+		//scroll
 		var scrollTotal = $this.doc.scrollTop();
-		var posY = $('#anima-section'+$(this).data('scroll_to')).offset().top;
+		var posY = $('#anima-section'+where).offset().top;
 		var diferencia = Math.round(Math.abs((posY - scrollTotal)/util.altoW()));
 
 		var time = (diferencia!=0) ? diferencia*750 : 750;
 
 		$('html,body').animate({ scrollTop : posY},time);
 	}
+
 	this.pinta_nav = function () {
 		var lista = "";
 		for (var i = 0; i < this.lista_escenas.length; i++) {
-			lista+="<li data-scroll_to ="+i+"><p>"+this.lista_escenas[i]["name"]+"</p><span></span></li>";
+			if (i==0) {
+				lista+="<li class='activo' data-scroll_to ="+i+"><p>"+this.lista_escenas[i]["name"]+"</p><span></span></li>";
+			}else{
+				lista+="<li data-scroll_to ="+i+"><p>"+this.lista_escenas[i]["name"]+"</p><span></span></li>";	
+			}
 		};
 		$(this.nav).html(lista);
 	}
 
-	this.pinta_nav();
+	var change_section = function () {
+		$($this.nav).children('li').removeClass('activo');
+		$($this.nav).children('li').eq($this.indice).addClass('activo');		
+	}
 
+	this.scrollea = function(e){
+		var scrollTotal = $(this).scrollTop();
+		var offsetTop = $('#anima-section'+$this.indice).offset().top + $('#anima-section'+$this.indice).height();
+		var haciaAbajo = (scrollTotal > $this.scrollAnterior) ? true : false;
+		if (scrollTotal > offsetTop - (util.altoW()/2) && haciaAbajo && scrollTotal > 0) {
+			$this.indice++;
+			change_section();
+		}else if(scrollTotal < offsetTop - (util.altoW() + util.altoW()/2) && !haciaAbajo && scrollTotal > 0){
+			$this.indice--;
+			change_section();
+		}
+		$this.scrollAnterior = scrollTotal;
+	}
+
+	//init
+	$(this.doc)
+		.on('scroll',$this.scrollea)
+		// .on('keydown',function(e){
+		// 	console.log(e.keyCode);
+		// 	switch(e.keyCode){
+		// 		case 38:
+		// 			$this.scroll_to(--$this.indice);
+		// 		break;
+		// 		case 40:
+		// 			$this.scroll_to(++$this.indice);
+		// 		break;
+		// 	}
+		// })
+
+	this.pinta_nav();
 }
 
 
@@ -173,10 +232,13 @@ function ConfirmarAsistencia (_form_id,_asistentes_ul,_asistentes_select) {
 
 function confirm_asistencia (data) {
   console.log(data);
+  modal.modal_show('correct-confirm');
+
 
 }
 function error1 (data) {
   console.log(data);
+  modal.modal_show('error-confirm');
 } 
 
 
@@ -299,11 +361,11 @@ function Form (_form_id) {
 	            $(element).parent().removeClass("error");
 	        },        
 	        submitHandler: function(form) {
-	        	$this.sendMail(form)
+	        	$this.saveAsistentes(form)
 	        }
 	    });	
 	}
-	this.sendMail = function(form) {
+	this.saveAsistentes = function(form) {
    	    var asistentes = [];
 
 	    for (var i = 0; i < $('#asistentes-select').val(); i++) {
@@ -367,6 +429,51 @@ function Ajax (obj) {
      this.ajax_error = function (data) {
         this.errorf(data);
      }
+}
+
+
+
+
+function Modal (obj) {
+  var $this = this;
+  this.modal = obj["modal"];
+  this.overlay = obj["overlay"];
+  this.btnClose = obj["btnClose"];
+  this.messages = obj["messages"];
+  this.htmlIn = obj["htmlIn"];
+
+  // Private Functions
+    // Oculta la modal, tanto con el overlay como con el
+    var click_hide = function(){
+      $($this.overlay+", "+$this.btnClose).on('click',function(){
+        $this.modal_hide();
+      })   
+    }();
+
+    //Checkea si el valor es un key del objeto de messages
+    var checkObject = function(value, obj){
+      for (key in obj) { if(key === value ){ return obj[value]; } }
+      return value;
+    }
+
+  // Public Functions
+    // Show Modal
+    this.modal_show = function(info){
+      if (!this.htmlIn) {
+        var msj = checkObject(info,this.messages);
+        $($this.modal)
+          .children('.modal-content')
+          .html(msj); 
+      };
+
+      $($this.modal +","+ $this.overlay)
+        .addClass('activo');
+    }
+    // Hide Modal
+    this.modal_hide = function(info){
+      $($this.modal +","+ $this.overlay)
+        .removeClass('activo');
+    }
 }
 
 

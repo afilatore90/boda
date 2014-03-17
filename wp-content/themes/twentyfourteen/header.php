@@ -84,7 +84,7 @@ $pagename = $pagename["post_name"];
 			<ul class="left">
 				<li><a href="/boda/confirmar-asistencia"><span></span><?= Helper::tr("confirma-asistencia") ?></a></li>
 				<li><a href="/boda"><span></span><?= Helper::tr("plan-del-dia") ?></a></li>
-				<li><a href="/boda"><span></span><?= Helper::tr("testigos") ?></a></li>
+				<li><a href="/boda/testigos"><span></span><?= Helper::tr("testigos") ?></a></li>
 			</ul>
 			<ul class="right">
 				<li><a href="/boda"><span></span><?= Helper::tr("regalo-de-boda") ?></a></li>

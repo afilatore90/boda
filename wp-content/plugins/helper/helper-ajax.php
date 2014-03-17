@@ -19,12 +19,16 @@ class HelperAjax{
 				array( 
 					'name' => $value["name"], 
 					'pre_boda' => ($value["pre-boda"] == 'true') ? 1 : 0, 
-					'post_boda' => ($value["post-boda"] == 'true') ? 1 : 0
+					'post_boda' => ($value["post-boda"] == 'true') ? 1 : 0,
+					'email' => $arr['email'],
+					'tel' => $arr['tel']
 				), 
 				array( 
 					'%s', 
 					'%d', 
-					'%d' 
+					'%d',
+					'%s',
+					'%s' 
 				) 
 			);
 		}

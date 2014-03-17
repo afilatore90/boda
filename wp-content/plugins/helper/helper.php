@@ -15,6 +15,7 @@ set_time_limit(0);
 
 
 class Helper{
+	//IDIOMA
 	private static $elidioma = 'es';
 	function __construct() {
 		if(isset($_GET['lang'])) {
@@ -50,6 +51,27 @@ class Helper{
 		        break;
 		}
         return $lang[self::$elidioma][$slug];
+	}
+
+
+	// ASISTENTES
+	public function get_asistentes(){
+		global $wpdb;		
+		$asistentes = $wpdb->get_results("SELECT * FROM wp_confirma","ARRAY_A");
+		return $asistentes;
+	}
+
+	// TESTIGOS
+	public function get_testigos($limit){
+		global $wpdb;
+		$result = $wpdb->get_results("SELECT *
+			FROM wp_posts 
+			WHERE post_type = 'post' AND post_status = 'publish'
+			AND (SELECT object_id FROM wp_term_relationships WHERE term_taxonomy_id = 2 AND object_id = ID) 
+			ORDER BY post_title
+			LIMIT ".$limit, 
+			"ARRAY_A");
+			return $result;
 	}
 }
 $helper = new Helper();
