@@ -15,7 +15,7 @@
     <div id="modal-overlay"></div>
 	<div id="modal">
 		<div id="btn-close" class="icon-remove"></div>
-		<div class="modal-content">Por favor, compruebe que todos los datos son correctos.</div>
+		<div class="modal-content"></div>
 	</div>	
 	<?php wp_footer(); ?>
 </body>

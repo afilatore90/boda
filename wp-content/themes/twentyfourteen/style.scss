@@ -164,6 +164,33 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
   }
 }
 
+#modal-testigo{
+  position: fixed; right: 0; top: 0; width: 50%; max-width: 400px; height: 100%; @include transform(translate(100%,0)); @include transition(all,0.5s,$easeInOutSine); background: #FFF; z-index: 5000;
+  &.activo{
+    @include transform(translate(0%,0));
+  }
+  .modal-content{
+    padding: 2em;
+    .img-box{
+      width: 100%; padding-bottom: 125%; background-size: contain !important; background: #000;
+    } 
+    .text-box{
+      p{
+        font-size: 0.7em; padding: 1em 0 0; max-width: 650px; margin: 0 auto; line-height: 2;
+      }
+    }
+  }
+  .icon-remove {
+    cursor: pointer; display: block; z-index: 2; position: absolute; left: 0.25em; top: 0.25em; @include transform(scale(1)); @include transformOrigin(50% 50%); @include transition(all,$easeInOutSine,0.1s); @include bfv();
+    font-size: 1em; border: 1px solid white; width: 22px; height: 22px; line-height: 20px; text-align: center; border-radius: 50%;
+    &:hover {
+      @include transform(scale(1.1));
+    }
+  }
+
+}
+
+
 #anima-section0{
   article{
     text-align: center; font-size: 1em; position: absolute; width: 100%; top:270px;
@@ -243,6 +270,7 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
     }
     p{
       font-size: 0.7em; padding: 1em 0 0; max-width: 650px; margin: 0 auto; line-height: 2;
+      a{ color: darken($naranja,15); font-weight: 700;}      
     }
   }
 

@@ -9,31 +9,13 @@
 
 get_header(); 
 ?>
-<script type="text/javascript">
-	var lista_productos = [<?
-		foreach ( Helper::get_testigos(5) as $k => $v) {
-			$post_image_id = get_post_thumbnail_id($v['ID']); 
-			if ($post_image_id) {
-				if(resize::is_tablet()){
-					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'large', false);
-				} elseif (resize::is_mobile()) {
-					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'medium', false);
-				}
-				else{
-					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'full', false);					
-				}
-				if ($thumbnail) (string)$thumbnail = $thumbnail[0];
-			}			
-		?>	
-			{
-				"post_title" : "<?= $v['post_title']?>",
-				"ID" : "<?= $v['ID']?>",
-				"thumbnail" : "<?= $thumbnail?>",
-				"post_content" : "<?= $v['post_content']?>"
-			},		
-		<?}
-	?>];	
-</script>
+<div id="modal-testigo">
+	<button id="btn-close-testigo" class="icon-remove"></button>
+	<div class="modal-content">
+		<div class="img-box"></div>
+		<div class="text-box"></div>
+	</div>
+</div>
 
 <nav id="aside-nav">
 	<ul id="aside-ul">
@@ -47,7 +29,7 @@ get_header();
 	</ul>
 </nav>
 	<!-- SECTION 0 -->
-	<section id="anima-section0" class="anima-section">
+	<section id="anima-section0" class="anima-section" data-name="Intro">
 		<article>
 			<h2><span class="left">{</span>nosvemosenparis<span class="right">}</span></h2>
 			<h3>Sarah&Pedro</h3>
@@ -74,7 +56,7 @@ get_header();
 
 
 	<!-- SECTION 1 -->
-	<section id="anima-section1" class="anima-section">
+	<section id="anima-section1" class="anima-section" data-name="Mudanzas">
 		<div class="farola">
 			<img src="<? bloginfo('template_url')?>/img/home/paris/farola.png">
 		</div>
@@ -101,7 +83,7 @@ get_header();
 		<div class="text right">
 			<article>
 				<h2>De mudanzas <span>por París</span></h2>
-				<p>Qué recuerdos con tantas maletas por aquí, bolsas por allá y yo por el otro lado. Todavía me acuerdo de aquellos años de una casa a otra por todo París. ¡Que os cuenten Cecille, Mathilde y Raphi cómo nos peleábamos por conseguir cada una el mejor cuarto!</p>
+				<p>Qué recuerdos con tantas maletas por aquí, bolsas por allá y yo por el otro lado. Todavía me acuerdo de aquellos años de una casa a otra por todo París. ¡Que os cuenten <a data-id="47" class="get-testigo" href="#">Cecille</a>, <a data-id="61" class="get-testigo" href="#">Mathilde</a> y <a data-id="27" class="get-testigo" href="#">Raphy</a> cómo nos peleábamos por conseguir cada una el mejor cuarto!</p>
 				<p>¿Qué estaría haciendo Pedro por aquel entonces?</p>
 			</article>
 		</div>
@@ -114,7 +96,7 @@ get_header();
 
 
 	<!-- SECTION 2 -->
-	<section id="anima-section2" class="anima-section">
+	<section id="anima-section2" class="anima-section" data-name="Colegio">
 		<div class="text left">
 			<article>
 				<h2>En el cole <span>santa maría del pilar</span></h2>
@@ -136,7 +118,7 @@ get_header();
 
 
 	<!-- SECTION 3 -->
-	<section id="anima-section3" class="anima-section">
+	<section id="anima-section3" class="anima-section" data-name="Marruecos">
 		<div class="escenario escenario3 left" data-bottom-top="transform:translate(-100px,0); transform-origin:center;" data-top="transform:translate(0px,0);">
 			<img src="<? bloginfo('template_url')?>/img/home/marruecos/escenario3.png">		
 		</div>
@@ -174,7 +156,7 @@ get_header();
 
 
 	<!-- SECTION 4 -->
-	<section id="anima-section4" class="anima-section">
+	<section id="anima-section4" class="anima-section" data-name="Fútbol">
 		<div class="text left">
 			<article>
 				<h2>En el cole <span>santa maría del pilar</span></h2>

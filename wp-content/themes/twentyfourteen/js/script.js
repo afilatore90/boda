@@ -1,5 +1,5 @@
 var url_ajax = '/boda/wp-content/plugins/helper/helper-ajax.php', anchoWindowv;
-var util, modal, idioma;
+var util, modal, modal_t, idioma, testigos;
 
 var lista_messages = {
   "correct-confirm" : "<h2>¡¡¡Correcto!!!</h2><h3>Has confirmado la asistencia correctamente</h3><p>Ahora puedes reservar el hotel <a href='#'>aquí</a> y hecha un vistazo al <a href='#'>plan del día</a></p>",
@@ -14,8 +14,6 @@ var modal_object_confirm = {
   messages : lista_messages,
   htmlIn : false, //Booleano
 }
-
-
 
 $(document).ready(function(){
 	init();
@@ -67,15 +65,14 @@ function Menu (_aside_header, _header_blur,_hero_img) {
 
 
 // HOME
-var lista_escenas = [
-	{ "name": "Intro" },
-	{ "name": "París" },
-	{ "name": "Colegio" },
-	{ "name": "Marruecos" },
-	{ "name": "Fútbol" },
-	{ "name": "Estudiar" },
-]
+var lista_escenas = [];
 function initHome () {
+
+	$('.anima-section').each(function(i){
+		var name = $(this).data('name');
+		lista_escenas.push({ "name" : name })
+	})
+
 	util.setAlto('#idiomas-section');
 	util.setAlto('.anima-section');
 	var s = skrollr.init({
@@ -87,25 +84,79 @@ function initHome () {
 	        }
 	    },	
 	});
+	testigos = new Testigos('.get-testigo','#modal-testigo');
 	var home = new Home(lista_escenas,'#aside-ul');
+	var modal_object_confirm = {
+		modal: '#modal-testigo', //id of the modal (Required)
+		overlay : '#modal-overlay', //id of the overlay (Required)
+		btnClose : '#btn-close-testigo', //id of the btn (Required)
+		messages : lista_messages,
+		htmlIn : true, //Booleano
+		ownCallback : true,
+  		callback : testigos.show_testigo
+	}
+	modal_t = new Modal(modal_object_confirm);
+
+
 	$('#btn-scroll').on('click',function(){ home.scroll_to($(this).data('scroll_to'))});
 	$('#aside-ul li').on('click',function(){ home.scroll_to($(this).data('scroll_to'))});
+
 }
 
+function Testigos (_testigos,_modal_testigo) {
+	var $this = this;
+	this.testigos = _testigos;
+	this.modal_testigo = _modal_testigo;
 
+	this.get_testigos = function (id) {
+	    var datos = {
+	    	"testigo" : "testigo",
+	    	"id" : id
+	    }
+		var ajax_object1 = {
+		  url: url_ajax, //required
+		  dataType : 'json', //required
+		  typeMethod : 'POST', //required
+		  data : datos,
+		  success : pinta_testigo, //required
+		  errorf : error1, //required
+		}
+		var ajax = new Ajax(ajax_object1);
+		ajax.get_ajax();  
+	}
+	this.show_testigo = function(data){
+		var content = $($this.modal_testigo).children('.modal-content');
+		var imgbox = content.children('.img-box');
+		var textbox = content.children('.text-box');
+
+		imgbox.css({ "background-image" : "url("+data["img"]+")" });
+		textbox.html(data['post_content']);
+	}
+
+	//Init
+	$($this.testigos).on('click',function(e){
+		e.preventDefault();
+		var id = $(this).data('id');
+		$this.get_testigos(id);
+	})
+}
+function pinta_testigo (data) {
+	testigos.show_testigo(data);
+	modal_t.modal_show();
+}
 
 
 function Home (_lista_escenas,_nav) {
 	var $this = this;
 	this.lista_escenas = _lista_escenas;
 	this.nav = _nav;
-	this.doc = $(document);
+	this.doc = document;
 	this.indice = 0;
 	this.scrollAnterior = 0;
 
 	this.scroll_to = function (where) {
 		//scroll
-		var scrollTotal = $this.doc.scrollTop();
+		var scrollTotal = $($this.doc).scrollTop();
 		var posY = $('#anima-section'+where).offset().top;
 		var diferencia = Math.round(Math.abs((posY - scrollTotal)/util.altoW()));
 
@@ -145,6 +196,8 @@ function Home (_lista_escenas,_nav) {
 		$this.scrollAnterior = scrollTotal;
 	}
 
+
+
 	//init
 	$(this.doc)
 		.on('scroll',$this.scrollea)
@@ -161,6 +214,8 @@ function Home (_lista_escenas,_nav) {
 		// })
 
 	this.pinta_nav();
+
+
 }
 
 
@@ -398,7 +453,6 @@ function Form (_form_id) {
 		ajax.get_ajax();  
 	};
 }
-
 
 //AJAX
 function Ajax (obj) {

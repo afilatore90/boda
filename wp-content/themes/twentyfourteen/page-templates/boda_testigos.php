@@ -8,13 +8,13 @@
  */
 
 get_header(); 
-$testigos = Helper::get_testigos(-1);
+$testigos = Helper::get_testigos(20);
 ?>
 
 <section id="confirmar-section" class="anima-section-relative">
 	<div class="row-container">
 		<?
-			foreach ( Helper::get_testigos(5) as $k => $v) {
+			foreach ( $testigos as $k => $v) {
 				$post_image_id = get_post_thumbnail_id($v['ID']); 
 				if ($post_image_id) {
 					if(resize::is_tablet()){
