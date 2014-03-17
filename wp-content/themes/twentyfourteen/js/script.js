@@ -3,7 +3,7 @@ var util, modal, idioma;
 
 var lista_messages = {
   "correct-confirm" : "<h2>¡¡¡Correcto!!!</h2><h3>Has confirmado la asistencia correctamente</h3><p>Ahora puedes reservar el hotel <a href='#'>aquí</a> y hecha un vistazo al <a href='#'>plan del día</a></p>",
-  "error" : "<h2>Paso 3</h2><h3>Eres una mierda pinchada en un palo</h3>",
+  "error" : "<h2>¡¡¡Error!!!</h2><h3>No hemos podido guardar tu confirmación, por favor intentalo de nuevo.</h3>",
   "info" : "<h2>Paso 1</h2><h3>Introduce los datos de la recarga</h3>",
 }
 // Modal
