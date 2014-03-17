@@ -9,6 +9,32 @@
 
 get_header(); 
 ?>
+<script type="text/javascript">
+	var lista_productos = [<?
+		foreach ( Helper::get_testigos(5) as $k => $v) {
+			$post_image_id = get_post_thumbnail_id($v['ID']); 
+			if ($post_image_id) {
+				if(resize::is_tablet()){
+					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'large', false);
+				} elseif (resize::is_mobile()) {
+					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'medium', false);
+				}
+				else{
+					$thumbnail = wp_get_attachment_image_src( $post_image_id, 'full', false);					
+				}
+				if ($thumbnail) (string)$thumbnail = $thumbnail[0];
+			}			
+		?>	
+			{
+				"post_title" : "<?= $v['post_title']?>",
+				"ID" : "<?= $v['ID']?>",
+				"thumbnail" : "<?= $thumbnail?>",
+				"post_content" : "<?= $v['post_content']?>"
+			},		
+		<?}
+	?>];	
+</script>
+
 <nav id="aside-nav">
 	<ul id="aside-ul">
 		<li><p>París</p><span></span></li>
@@ -126,12 +152,12 @@ get_header();
 			<img src="<? bloginfo('template_url')?>/img/home/marruecos/sol.png">		
 		</div>
 		<ul class="ciudad-box">
-			<li class="ciudad1"
-				data-300-bottom="transform:translate(0px,70px); transform-origin:center;" data-top="transform:translate(0,0);">
+			<li class="ciudad1">
+				<!-- data-300-bottom="transform:translate(0px,70px); transform-origin:center;" data-top="transform:translate(0,0);"> -->
 				<img src="<? bloginfo('template_url')?>/img/home/marruecos/ciudad1.png">			
 			</li>
-			<li class="ciudad2"
-				data-300-bottom="transform:translate(0px,35px); transform-origin:center;" data-top="transform:translate(0,0);">			
+			<li class="ciudad2">
+				<!-- data-300-bottom="transform:translate(0px,35px); transform-origin:center;" data-top="transform:translate(0,0);">			 -->
 				<img src="<? bloginfo('template_url')?>/img/home/marruecos/ciudad2.png">
 			</li>
 		</ul>
