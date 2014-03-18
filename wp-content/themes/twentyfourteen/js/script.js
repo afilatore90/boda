@@ -2,7 +2,7 @@ var url_ajax = '/boda/wp-content/plugins/helper/helper-ajax.php', anchoWindowv;
 var util, modal, modal_t, idioma, testigos;
 
 var lista_messages = {
-  "correct-confirm" : "<h2>¡¡¡Correcto!!!</h2><h3>Has confirmado la asistencia correctamente</h3><p>Ahora puedes reservar el hotel <a href='#'>aquí</a> y hecha un vistazo al <a href='#'>plan del día</a></p>",
+  "correct-confirm" : "<h2>¡¡¡Correcto!!!</h2><h3>Has confirmado la asistencia de:</h3><ul id='confirm-asistentes-ul'></ul><p>Ahora puedes reservar el hotel <a href='#'>aquí</a> y hecha un vistazo al <a href='#'>plan del día</a></p>",
   "error" : "<h2>¡¡¡Error!!!</h2><h3>No hemos podido guardar tu confirmación, por favor intentalo de nuevo.</h3>",
   "info" : "<h2>Paso 1</h2><h3>Introduce los datos de la recarga</h3>",
 }
@@ -82,7 +82,7 @@ function initHome () {
 	        inverted: function(p) {
 	            return 1 - p;
 	        }
-	    },	
+	    }
 	});
 	testigos = new Testigos('.get-testigo','#modal-testigo');
 	var home = new Home(lista_escenas,'#aside-ul');
@@ -184,15 +184,17 @@ function Home (_lista_escenas,_nav) {
 
 	this.scrollea = function(e){
 		var scrollTotal = $(this).scrollTop();
-		var offsetTop = $('#anima-section'+$this.indice).offset().top + $('#anima-section'+$this.indice).height();
-		var haciaAbajo = (scrollTotal > $this.scrollAnterior) ? true : false;
-		if (scrollTotal > offsetTop - (util.altoW()/2) && haciaAbajo && scrollTotal > 0) {
-			$this.indice++;
-			change_section();
-		}else if(scrollTotal < offsetTop - (util.altoW() + util.altoW()/2) && !haciaAbajo && scrollTotal > 0){
-			$this.indice--;
-			change_section();
-		}
+		if ($this.indice < $this.lista_escenas.length) {
+			var offsetTop = $('#anima-section'+$this.indice).offset().top + $('#anima-section'+$this.indice).height();
+			var haciaAbajo = (scrollTotal > $this.scrollAnterior) ? true : false;
+			if (scrollTotal > offsetTop - (util.altoW()/2) && haciaAbajo && scrollTotal > 0) {
+				$this.indice++;
+				change_section();
+			}else if(scrollTotal < offsetTop - (util.altoW() + util.altoW()/2) && !haciaAbajo && scrollTotal > 0){
+				$this.indice--;
+				change_section();
+			}			
+		};
 		$this.scrollAnterior = scrollTotal;
 	}
 
@@ -286,13 +288,16 @@ function ConfirmarAsistencia (_form_id,_asistentes_ul,_asistentes_select) {
 }
 
 function confirm_asistencia (data) {
-  console.log(data);
   modal.modal_show('correct-confirm');
+  var li_box = "";
+  for (var i = 0; i < data.length; i++) {
+  	li_box += "<li>"+data[i]["name"]+"</li>";
+  };
+  $('#confirm-asistentes-ul').html(li_box);
 
 
 }
 function error1 (data) {
-  console.log(data);
   modal.modal_show('error-confirm');
 } 
 
@@ -443,7 +448,7 @@ function Form (_form_id) {
 
 		var ajax_object1 = {
 		  url: url_ajax, //required
-		  dataType : 'html', //required
+		  dataType : 'json', //required
 		  typeMethod : 'POST', //required
 		  data : datos,
 		  success : confirm_asistencia, //required

@@ -173,5 +173,136 @@ get_header();
 	</section>
 
 
+
+
+
+
+
+
+
+
+
+
+	<!-- SECTION 5 -->
+	<section id="anima-section5" class="anima-section" data-name="Liceo">
+		<div class="escenario escenario5 left" data-bottom-top="transform:translate(-100px,0); transform-origin:center;" data-top="transform:translate(0px,0);">
+			<img src="<? bloginfo('template_url')?>/img/home/liceo/escenario5.png">		
+		</div>
+		<div class="text right">
+			<article>
+				<h2>Liceo<span>por París</span></h2>
+				<p>Qué recuerdos con tantas maletas por aquí, bolsas por allá y yo por el otro lado. Todavía me acuerdo de aquellos años de una casa a otra por todo París. ¡Que os cuenten Cecille, Mathilde y Raphi cómo nos peleábamos por conseguir cada una el mejor cuarto!</p>
+				<p>¿Qué estaría haciendo Pedro por aquel entonces?</p>
+			</article>
+		</div>
+		<ul class="examenes-box">
+			<li class="examenes1"
+				data-bottom-top="transform:translate(0px,-300px); transform-origin:center;" data-top-bottom="transform:translate(0px,300px);">
+				<img src="<? bloginfo('template_url')?>/img/home/liceo/examenesA.png">			
+			</li>
+			<li class="examenes2"
+				data-bottom-top="transform:translate(0px,-200px); transform-origin:center;" data-top-bottom="transform:translate(0px,200px);">
+				<img src="<? bloginfo('template_url')?>/img/home/liceo/examenesB.png">
+			</li>
+		</ul>		
+	</section>	
+
+
+
+
+
+	<!-- SECTION 6 -->
+	<section id="anima-section6" class="anima-section" data-name="Cervezas">
+		<div class="text left">
+			<article>
+				<h2>En el cole <span>santa maría del pilar</span></h2>
+				<p>Qué recuerdos con tantas maletas por aquí, bolsas por allá y yo por el otro lado. Todavía me acuerdo de aquellos años de una casa a otra por todo París. ¡Que os cuenten Cecille, Mathilde y Raphi cómo nos peleábamos por conseguir cada una el mejor cuarto!</p>
+				<p>¿Qué estaría haciendo Pedro por aquel entonces?</p>
+			</article>
+		</div>
+		<div class="cerveza-box">
+			<div class="vaso">
+				<img src="<? bloginfo('template_url')?>/img/home/cerveza/vaso.png">
+			</div>
+			<div class="cerveza" data-bottom-top="transform:translate(0px,0%); transform-origin:top;" data-top-bottom="transform:translate(0px,80%);">
+				<img src="<? bloginfo('template_url')?>/img/home/cerveza/cerveza.jpg">
+			</div>
+			
+		</div>
+		<div class="escenario escenario2 right" data-bottom-top="transform:translate(100px,0); transform-origin:center;" data-top="transform:translate(0px,0);">
+			<img src="<? bloginfo('template_url')?>/img/home/cerveza/escenario6.png">		
+		</div>
+	</section>
+
+
+
+
+
+
+
+
+	<!-- SECTION 7 -->
+	<section id="anima-section7" class="anima-section" data-name="México">
+		<div class="escenario escenario7 left" data-bottom-top="transform:translate(-100px,0); transform-origin:center;" data-top="transform:translate(0px,0);">
+			<img src="<? bloginfo('template_url')?>/img/home/liceo/escenario5.png">		
+		</div>
+		<div class="text right">
+			<article>
+				<h2>Liceo<span>por París</span></h2>
+				<p>Qué recuerdos con tantas maletas por aquí, bolsas por allá y yo por el otro lado. Todavía me acuerdo de aquellos años de una casa a otra por todo París. ¡Que os cuenten Cecille, Mathilde y Raphi cómo nos peleábamos por conseguir cada una el mejor cuarto!</p>
+				<p>¿Qué estaría haciendo Pedro por aquel entonces?</p>
+			</article>
+		</div>
+		<ul class="examenes-box">
+			<li class="examenes1"
+				data-bottom-top="transform:translate(0px,-300px); transform-origin:center;" data-top-bottom="transform:translate(0px,300px);">
+				<img src="<? bloginfo('template_url')?>/img/home/liceo/examenesA.png">			
+			</li>
+			<li class="examenes2"
+				data-bottom-top="transform:translate(0px,-200px); transform-origin:center;" data-top-bottom="transform:translate(0px,200px);">
+				<img src="<? bloginfo('template_url')?>/img/home/liceo/examenesB.png">
+			</li>
+		</ul>		
+	</section>	
+
+
+
+
+	<!-- SECTION 8 -->
+	<section id="anima-section10" class="anima-section" data-name="Avión">
+		<ul class="nubes-box">
+			<li class="nubes1"
+				data-bottom-top="transform:translate(150px,0px); transform-origin:center;" data-top-bottom="transform:translate(-150px,0px);">
+				<img src="<? bloginfo('template_url')?>/img/home/avion/nubes1.png">			
+			</li>
+			<li class="nubes2"
+				data-bottom-top="transform:translate(600px,0px); transform-origin:center;" data-top-bottom="transform:translate(-600px,0px);">
+				<img src="<? bloginfo('template_url')?>/img/home/avion/nubes2.png">
+			</li>
+		</ul>		
+		<div class="text left">
+			<article>
+				<h2>En el cole <span>santa maría del pilar</span></h2>
+				<p>Qué recuerdos con tantas maletas por aquí, bolsas por allá y yo por el otro lado. Todavía me acuerdo de aquellos años de una casa a otra por todo París. ¡Que os cuenten Cecille, Mathilde y Raphi cómo nos peleábamos por conseguir cada una el mejor cuarto!</p>
+				<p>¿Qué estaría haciendo Pedro por aquel entonces?</p>
+			</article>
+		</div>
+		<div class="avion"
+			data-bottom-top="transform:translate(600px,0px); transform-origin:center;" data-top-bottom="transform:translate(0px,0px);">
+			<img src="<? bloginfo('template_url')?>/img/home/avion/avion.png">
+		</div>
+		
+		<div class="escenario escenario2 right" data-bottom-top="transform:translate(100px,0); transform-origin:center;" data-top="transform:translate(0px,0);">
+			<img src="<? bloginfo('template_url')?>/img/home/avion/escenario8.png">		
+		</div>
+	</section>
+
+
+
+
+
+
+
+
 	
 <? get_footer();?>

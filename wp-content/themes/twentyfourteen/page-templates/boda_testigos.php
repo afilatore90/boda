@@ -30,6 +30,14 @@ $testigos = Helper::get_testigos(20);
 			?>	
 			<article id="testigo-<?= $v['ID']?>">
 				<h2><?= $v['post_title']?></h2>
+				<div class="content">
+					<?
+						$content = $v['post_content'];
+						$content = apply_filters('the_content', $content);
+						$content = str_replace(PHP_EOL, '', $content);
+						echo $content;
+					?>
+				</div>
 				<img src="<?= $thumbnail?>">
 			</article>
 			<?}

@@ -227,7 +227,7 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
       content: ""; display: block; position: absolute; top: -6px; left: 0; width: 100%; height: 12px; border-radius: 50%; background: #CCC;
     }
     .text{
-      z-index: 3; width: 256px; height: 77px; background: url(img/home/intro/texto_scroll.png); position: absolute; top: -200%; left: 50%; @include transform(translate(-50%,0));            
+      z-index: 10; width: 256px; height: 77px; background: url(img/home/intro/texto_scroll.png); position: absolute; top: -200%; left: 50%; @include transform(translate(-50%,0));            
     }
     .arrow{
       @include animation(top_bottom,0.75s,infinite,$easeOutSine,alternate,normal,0); 
@@ -320,6 +320,59 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
   .sol{
     width: 240px; height: 225px; position: absolute; top: 0; left: 0; @include transform(translate(-50%,0));
     // &.skrollable-after{ display: none;}
+  }
+}
+
+
+
+//LICEO
+#anima-section5{
+  .examenes-box{
+    position: absolute; width: 100%; height: 100%; z-index: 1;
+    li{
+      position: absolute; top: 0;
+      &.examenes1{
+        left: 40%; top: -10%;
+      }
+      &.examenes2{
+        left: 0; top: 15%;
+      }
+    }
+  }
+}
+
+
+#anima-section6{
+  .cerveza-box{
+    position: absolute; width: 100%; height: 100%; left: -5%; z-index: 1;
+    >div{
+      position: absolute; bottom: 0; left: 0;
+      &.vaso{
+        z-index: 2;
+      }
+      &.cerveza{
+        z-index: 1;
+      }
+    }
+  }
+}
+
+
+#anima-section10{
+  .nubes-box{
+    position: absolute; width: 100%; height: 100%; z-index: 1;
+    li{
+      position: absolute; top: 0;
+      &.nubes1{
+        left: 0%; top: 10%;
+      }
+      &.nubes2{
+        left: 0; top: 0%;
+      }
+    }
+  }
+  .avion{
+    position: absolute; top: 10%; left: 25%; z-index: 2;
   }
 }
 
@@ -453,6 +506,15 @@ h1,h2,h3,h4,h5,h6                       { margin: 0; font-family: inherit; font-
     padding: 1.5em; font-size: 0.75em; 
     h2{ color: #000; font-size: 2em; font-family: "Amatic SC";}
     h3{ color: #000; font-size: 0.875em;}
+    ul{
+      li{
+        padding: 0em 0 0 1em; margin: 0.5em 0 0; color: #000; font-size: 0.75em; position: relative;
+        &:before{
+          content: ""; width: 4px; height: 4px; background: #000; position: absolute; top: 50%; left: 2px; margin: -2px 0 0; border-radius: 50%;
+        }
+        strong{ font-weight: 700;}
+      }
+    }
     p{
       padding: 0.5em 0 0; color: #000; font-size: 0.75em;
       &:first-child{ padding: 0;}
