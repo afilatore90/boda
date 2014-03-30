@@ -73,6 +73,10 @@ class Helper{
 			"ARRAY_A");
 			return $result;
 	}
+
+	public function isDev(){
+		echo ($_SERVER["HTTP_HOST"] == 'localhost') ? '/boda' : '';
+	}
 }
 $helper = new Helper();
 

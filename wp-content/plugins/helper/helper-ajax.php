@@ -1,8 +1,11 @@
 <?
 //Si no NO puedo usar wordpres
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/boda/wp-config.php' );
-require_once( $_SERVER['DOCUMENT_ROOT'] . '/boda/wp-includes/wp-db.php' );
 
+// require_once( $_SERVER['DOCUMENT_ROOT'] . '/boda/wp-config.php' );
+// require_once( $_SERVER['DOCUMENT_ROOT'] . '/boda/wp-includes/wp-db.php' );
+
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-config.php' );
+require_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-includes/wp-db.php' );
 
 
 class HelperAjax{

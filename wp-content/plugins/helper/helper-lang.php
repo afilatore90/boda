@@ -11,6 +11,7 @@
 			"frances" => "Français",
 
 			//menu
+			"historia" => "Historia",
 			"confirma-asistencia" => "Confirma tu asistencia",
 			"plan-del-dia" => "Plan del día",
 			"testigos" => "Testigos",
@@ -29,6 +30,7 @@
 			"frances" => "Français",
 
 			//menu
+			"historia" => "Historia",
 			"confirma-asistencia" => "Confirma tu asistencia",
 			"plan-del-dia" => "Plan del día",
 			"testigos" => "Testigos",

@@ -1,9 +1,10 @@
-var url_ajax = '/boda/wp-content/plugins/helper/helper-ajax.php', anchoWindowv;
+var url_ajax = (is_dev) ? '/boda/wp-content/plugins/helper/helper-ajax.php' : '/wp-content/plugins/helper/helper-ajax.php'
 var util, modal, modal_t, idioma, testigos;
 
 var lista_messages = {
   "correct-confirm" : "<h2>¡¡¡Correcto!!!</h2><h3>Has confirmado la asistencia de:</h3><ul id='confirm-asistentes-ul'></ul><p>Ahora puedes reservar el hotel <a href='#'>aquí</a> y hecha un vistazo al <a href='#'>plan del día</a></p>",
-  "error" : "<h2>¡¡¡Error!!!</h2><h3>No hemos podido guardar tu confirmación, por favor intentalo de nuevo.</h3>",
+  "error-confirm" : "<h2>¡¡¡Error!!!</h2><h3>No hemos podido guardar tu confirmación, por favor intentalo de nuevo.</h3>",
+  "error-testigo" : "<h2>¡¡¡Error!!!</h2><h3>No hemos podido cargar al testigo, por favor intentalo de nuevo.</h3>",
   "info" : "<h2>Paso 1</h2><h3>Introduce los datos de la recarga</h3>",
 }
 // Modal
@@ -14,6 +15,14 @@ var modal_object_confirm = {
   messages : lista_messages,
   htmlIn : false, //Booleano
 }
+
+
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ INIT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 $(document).ready(function(){
 	init();
@@ -45,7 +54,9 @@ function initMenu(){
 
 }
 
-//MENU
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ MENU ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 function Menu (_aside_header, _header_blur,_hero_img) {
 	$this = this;
 	this.aside_header = _aside_header;
@@ -64,7 +75,9 @@ function Menu (_aside_header, _header_blur,_hero_img) {
 }
 
 
-// HOME
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ INIT HOME ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 var lista_escenas = [];
 function initHome () {
 
@@ -75,15 +88,25 @@ function initHome () {
 
 	util.setAlto('#idiomas-section');
 	util.setAlto('.anima-section');
-	var s = skrollr.init({
-		easing: {
-	        //This easing will sure drive you crazy
-	        wtf: Math.random,
-	        inverted: function(p) {
-	            return 1 - p;
-	        }
-	    }
-	});
+	if (!util.mobilecheck()) {
+		window.onload = function () {	
+			var s = skrollr.init({
+				easing: {
+			        //This easing will sure drive you crazy
+			        wtf: Math.random,
+			        inverted: function(p) {
+			            return 1 - p;
+			        }
+			    }
+			});
+			var section_go = util.getUrlVar('section');
+			if (section_go) {
+				setTimeout(function () {
+					home.scroll_to(1);
+				},500)
+			};		
+		}
+	}
 	testigos = new Testigos('.get-testigo','#modal-testigo');
 	var home = new Home(lista_escenas,'#aside-ul');
 	var modal_object_confirm = {
@@ -102,50 +125,9 @@ function initHome () {
 	$('#aside-ul li').on('click',function(){ home.scroll_to($(this).data('scroll_to'))});
 
 }
-
-function Testigos (_testigos,_modal_testigo) {
-	var $this = this;
-	this.testigos = _testigos;
-	this.modal_testigo = _modal_testigo;
-
-	this.get_testigos = function (id) {
-	    var datos = {
-	    	"testigo" : "testigo",
-	    	"id" : id
-	    }
-		var ajax_object1 = {
-		  url: url_ajax, //required
-		  dataType : 'json', //required
-		  typeMethod : 'POST', //required
-		  data : datos,
-		  success : pinta_testigo, //required
-		  errorf : error1, //required
-		}
-		var ajax = new Ajax(ajax_object1);
-		ajax.get_ajax();  
-	}
-	this.show_testigo = function(data){
-		var content = $($this.modal_testigo).children('.modal-content');
-		var imgbox = content.children('.img-box');
-		var textbox = content.children('.text-box');
-
-		imgbox.css({ "background-image" : "url("+data["img"]+")" });
-		textbox.html(data['post_content']);
-	}
-
-	//Init
-	$($this.testigos).on('click',function(e){
-		e.preventDefault();
-		var id = $(this).data('id');
-		$this.get_testigos(id);
-	})
-}
-function pinta_testigo (data) {
-	testigos.show_testigo(data);
-	modal_t.modal_show();
-}
-
-
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ HOME ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 function Home (_lista_escenas,_nav) {
 	var $this = this;
 	this.lista_escenas = _lista_escenas;
@@ -198,26 +180,58 @@ function Home (_lista_escenas,_nav) {
 		$this.scrollAnterior = scrollTotal;
 	}
 
-
-
 	//init
 	$(this.doc)
 		.on('scroll',$this.scrollea)
-		// .on('keydown',function(e){
-		// 	console.log(e.keyCode);
-		// 	switch(e.keyCode){
-		// 		case 38:
-		// 			$this.scroll_to(--$this.indice);
-		// 		break;
-		// 		case 40:
-		// 			$this.scroll_to(++$this.indice);
-		// 		break;
-		// 	}
-		// })
-
+		.on('keydown',$this.scroll_keys)
 	this.pinta_nav();
+}
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ TESTIGOS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+function Testigos (_testigos,_modal_testigo) {
+	var $this = this;
+	this.testigos = _testigos;
+	this.modal_testigo = _modal_testigo;
 
+	this.get_testigos = function (id) {
+	    var datos = {
+	    	"testigo" : "testigo",
+	    	"id" : id
+	    }
+		var ajax_object1 = {
+		  url: url_ajax, //required
+		  dataType : 'json', //required
+		  typeMethod : 'POST', //required
+		  data : datos,
+		  success : pinta_testigo, //required
+		  errorf : error_testigo, //required
+		}
+		var ajax = new Ajax(ajax_object1);
+		ajax.get_ajax();  
+	}
+	this.show_testigo = function(data){
+		var content = $($this.modal_testigo).children('.modal-content');
+		var imgbox = content.children('.img-box');
+		var textbox = content.children('.text-box');
 
+		imgbox.css({ "background-image" : "url("+data["img"]+")" });
+		textbox.html(data['post_content']);
+	}
+
+	//Init
+	$($this.testigos).on('click',function(e){
+		e.preventDefault();
+		var id = $(this).data('id');
+		$this.get_testigos(id);
+	})
+}
+function pinta_testigo (data) {
+	testigos.show_testigo(data);
+	modal_t.modal_show();
+}
+function error_testigo (data) {
+	modal.modal_show('error-testigo');
 }
 
 
@@ -232,7 +246,11 @@ function Home (_lista_escenas,_nav) {
 
 
 
-// CONFIRMAR ASISTENCIA
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ CONFIRMAR ASISTENCIA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 function initConfirmarAsitencia () {
 	var confirmar = new ConfirmarAsistencia('#confirmar-form','#asistentes-ul','#asistentes-select');
 	$('#asistentes-select').on('change',confirmar.add_asistentes);
@@ -334,6 +352,9 @@ function Single (_list,_article) {
 
 
 
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ IDIOMA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 function Idioma (_lang,_section) {
 	var $this = this;
@@ -347,14 +368,20 @@ function Idioma (_lang,_section) {
 	}
 	this.removeIdiomaSection = function () {
 		$($this.section).transition({y:'-100%'},500);
+		$('body,html').animate({scrollTop : 0},0);
 	}
 
 
 
 }
 
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ UTILES ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 function Utiles(){
 	var $this = this;
+	//PRELOAD
 	this.preload = function(list,callback){
 		var call = callback;
 		for (var i = 0; i < list.length; i++) {
@@ -365,6 +392,17 @@ function Utiles(){
 	        };			
 		};
 	}
+
+	//USEFUL
+    this.getUrlVar = function(key) {
+        var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
+        return result && unescape(result[1]) || "";
+    };
+	this.mobilecheck = function() {
+		var isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/);
+		return isMobile; 
+	}    
+
 	// ALTO ANCHO WINDOW, get y set
 	this.anchoW = function(){
 		return (window.innerWidth) ? window.innerWidth : $(window).width();
@@ -394,7 +432,9 @@ function Utiles(){
 
 }
 
-//FORM
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ FORM ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 function Form (_form_id) {
 	var $this = this;
 	this.form_id = _form_id; 
@@ -459,7 +499,9 @@ function Form (_form_id) {
 	};
 }
 
-//AJAX
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ AJAX ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 function Ajax (obj) {
      var $this = this;
      this.url = obj["url"];
@@ -473,7 +515,8 @@ function Ajax (obj) {
              url: this.url,
              dataType: this.dataType,
              type: this.typeMethod,
-             data: this.data
+             data: this.data,
+             cache: true
          })
          ajaxRequest.success(function(data) {
               $this.ajax_done(data);
@@ -492,6 +535,9 @@ function Ajax (obj) {
 
 
 
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ MODAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 function Modal (obj) {
   var $this = this;
