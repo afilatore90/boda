@@ -108,24 +108,31 @@ $pagename = $pagename["post_name"];
 			</div>
 			<div class="logo"></div>
 			<div class="botonera">
-				<a href="<?= Helper::isDev()?>/?lang=es" id="lang-es" class="btn-idioma es" data-lang="es"><button><?= Helper::tr("castellano") ?></button></a>
-				<a href="<?= Helper::isDev()?>/?lang=fr" id="lang-fr" class="btn-idioma fr" data-lang="fr"><button><?= Helper::tr("frances") ?></button></a>				
+				<a href="http://<?= $_SERVER['SERVER_NAME']; ?><?= Helper::isDev()?><?= $_SERVER['REDIRECT_URL']; ?>/?lang=es" id="lang-es" class="btn-idioma es" data-lang="es"><button><?= Helper::tr("castellano") ?></button></a>
+				<a href="http://<?= $_SERVER['SERVER_NAME']; ?><?= Helper::isDev()?><?= $_SERVER['REDIRECT_URL']; ?>/?lang=fr" id="lang-fr" class="btn-idioma fr" data-lang="fr"><button><?= Helper::tr("frances") ?></button></a>				
 			</div>
 		</div>
 	</section>
 	<header id="main-header">
-		<button id="btn-menu"></button>
+		<button id="btn-menu">
+			<ul>
+				<li><span></span></li>
+				<li><span></span></li>
+				<li><span></span></li>
+			</ul>
+		</button>
 		<h1><a href="<?= Helper::isDev()?>/"><?= Helper::tr("logo") ?></a></h1>
-		<nav>
+		<nav id="main-nav">
 			<ul class="left">
-				<li><a href="<?= Helper::isDev()?>/?section=1"><span></span><?= Helper::tr("historia") ?></a></li>
-				<li><a href="<?= Helper::isDev()?>/confirmar-asistencia"><span></span><?= Helper::tr("confirma-asistencia") ?></a></li>
-				<li><a href="<?= Helper::isDev()?>/plan-del-dia"><span></span><?= Helper::tr("plan-del-dia") ?></a></li>
+				<li><a href="<?= Helper::isDev()?>/?section=1"><span class="icon-Galeria"></span><?= Helper::tr("historia") ?></a></li>
+				<li><a href="<?= Helper::isDev()?>/confirmar-asistencia"><span class="icon-ConfirmarAsistencia"></span><?= Helper::tr("confirma-asistencia") ?></a></li>
+				<li><a href="<?= Helper::isDev()?>/plan-del-dia"><span class="icon-PlanDelDia"></span><?= Helper::tr("plan-del-dia") ?></a></li>
 			</ul>
 			<ul class="right">
-				<li><a href="<?= Helper::isDev()?>/testigos"><span></span><?= Helper::tr("testigos") ?></a></li>
-				<li><a href="<?= Helper::isDev()?>/regalo-de-boda"><span></span><?= Helper::tr("regalo-de-boda") ?></a></li>
-				<li><a href="<?= Helper::isDev()?>/regalo-de-boda"><span></span><?= Helper::tr("sugerencias-en-paris") ?></a></li>
+				<li><a href="<?= Helper::isDev()?>/testigos"><span class="icon-Testigos"></span><?= Helper::tr("testigos") ?></a></li>
+				<li><a href="<?= Helper::isDev()?>/regalo-de-boda"><span class="icon-ViajeDeBoda"></span><?= Helper::tr("regalo-de-boda") ?></a></li>
+				<li><a href="<?= Helper::isDev()?>/sugerencias-en-paris"><span class="icon-SugerenciasEnParis"></span><?= Helper::tr("sugerencias-en-paris") ?></a></li>
 			</ul>
+			<button id="btn-close" class="icon-remove"></button>
 		</nav>
 	</header>

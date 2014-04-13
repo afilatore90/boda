@@ -1,5 +1,5 @@
 var url_ajax = (is_dev) ? '/boda/wp-content/plugins/helper/helper-ajax.php' : '/wp-content/plugins/helper/helper-ajax.php'
-var util, modal, modal_t, idioma, testigos;
+var util, modal, modal_t, modal_l, idioma, testigos;
 
 var lista_messages = {
   "correct-confirm" : "<h2>¡¡¡Correcto!!!</h2><h3>Has confirmado la asistencia de:</h3><ul id='confirm-asistentes-ul'></ul><p>Ahora puedes reservar el hotel <a href='#'>aquí</a> y hecha un vistazo al <a href='#'>plan del día</a></p>",
@@ -31,7 +31,9 @@ $(document).ready(function(){
 
 var initialize = {
 	'home' : initHome,
-	'confirmar-asistencia' : initConfirmarAsitencia
+	'confirmar-asistencia' : initConfirmarAsitencia,
+	'sugerencias-en-paris' : initSugerencias,
+	'testigos' : initTestigos
 }
 
 
@@ -51,27 +53,29 @@ function init () {
 }
 
 function initMenu(){
-
+	var menu = new Menu();
 }
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++ MENU ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-function Menu (_aside_header, _header_blur,_hero_img) {
+function Menu () {
 	$this = this;
-	this.aside_header = _aside_header;
-	this.header_blur = _header_blur;
-	this.hero_img = _hero_img;
-	this.animando = true;
+	this.aside_nav = $('#main-nav');
+	this.btn_menu = $('#btn-menu');
+	this.btn_close = $('#btn-close');
 
 	this.show_menu = function(){
 		$(this).addClass('activo');
-		$($this.aside_header +','+ $this.header_blur).addClass('activo');	
+		$this.aside_nav.addClass('activo');	
 	}
 	this.hide_menu = function(){
 		$('#btn-menu').removeClass('activo');
-		$($this.aside_header +','+ $this.header_blur).removeClass('activo');	
+		$this.aside_nav.removeClass('activo');	
 	}
+
+	this.btn_menu.on('click',this.show_menu);
+	this.btn_close.on('click',this.hide_menu);
 }
 
 
@@ -86,9 +90,15 @@ function initHome () {
 		lista_escenas.push({ "name" : name })
 	})
 
-	util.setAlto('#idiomas-section');
-	util.setAlto('.anima-section');
-	if (!util.mobilecheck()) {
+	enquire.register("screen and (min-width: 768px)", {
+	    match : function() {
+			util.setAlto('#idiomas-section');
+			util.setAlto('.anima-section');
+	    }
+	});	
+
+
+	if (!util.mobilecheck() && util.anchoW() >= 768) {
 		window.onload = function () {	
 			var s = skrollr.init({
 				easing: {
@@ -181,9 +191,20 @@ function Home (_lista_escenas,_nav) {
 	}
 
 	//init
-	$(this.doc)
-		.on('scroll',$this.scrollea)
-		.on('keydown',$this.scroll_keys)
+	enquire.register("screen and (min-width: 1100px)", {
+	    match : function() {
+			if (!util.mobilecheck()) {
+				$($this.doc)
+					.on('scroll',$this.scrollea)		
+			};
+	    },  
+	    unmatch : function() {
+			if (!util.mobilecheck()) {
+				$($this.doc)
+					.off('scroll',$this.scrollea)		
+			};
+	    }
+	});	
 	this.pinta_nav();
 }
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -225,6 +246,11 @@ function Testigos (_testigos,_modal_testigo) {
 		var id = $(this).data('id');
 		$this.get_testigos(id);
 	})
+	$($this.testigos).each(function(){
+		var id = $(this).data('id');
+		var new_id = testigos_json[id];
+		$(this).data('id',new_id);
+	})
 }
 function pinta_testigo (data) {
 	testigos.show_testigo(data);
@@ -252,17 +278,20 @@ function error_testigo (data) {
 ++++++++++ CONFIRMAR ASISTENCIA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 function initConfirmarAsitencia () {
-	var confirmar = new ConfirmarAsistencia('#confirmar-form','#asistentes-ul','#asistentes-select');
+	var confirmar = new ConfirmarAsistencia('#confirmar-form','#asistentes-ul','#asistentes-select',lang_js);
 	$('#asistentes-select').on('change',confirmar.add_asistentes);
 }
 
 
 //CONFIRMAR ASISTENCIA
-function ConfirmarAsistencia (_form_id,_asistentes_ul,_asistentes_select) {
+function ConfirmarAsistencia (_form_id,_asistentes_ul,_asistentes_select,_lang_js) {
 	var $this = this;
 	this.form_id = _form_id;
 	this.asistentes_ul = _asistentes_ul;
 	this.asistentes_select = _asistentes_select;
+	this.lang_js = _lang_js;
+	this.lang_js = (lang == 'es') ? this.lang_js['es'] : this.lang_js['fr'];
+	this.fiesta = (lang == 'es') ? 'pre' : 'post';
 
 
 	this.fill_select = function(num){
@@ -279,25 +308,33 @@ function ConfirmarAsistencia (_form_id,_asistentes_ul,_asistentes_select) {
 		for (var i = 0; i < num_asistentes; i++) {
 			li_box += ''+
 			'<li id="asistente'+(i+1)+'">'+
-				'<h3>'+(i+1)+'º Asistente</h3>'+
+				'<h3>'+(i+1)+'º '+$this.lang_js['confirm-asistente']+'</h3>'+
 				'<label class="n-input">'+
-					'<span>Nombre y Appellido *</span>'+
-					'<input class="required" type="text" id="nombre'+(i+1)+'" name="nombre'+(i+1)+'" placeholder="Escribe el nombre y apellido del Asistente '+(i+1)+'">'+
+					'<span>'+$this.lang_js['confirm-nombre']+' *</span>'+
+					'<input class="required" type="text" id="nombre'+(i+1)+'" name="nombre'+(i+1)+'" placeholder="'+$this.lang_js['confirm-nombre-placeholder']+'">'+
 				'</label>'+
 			    '<div class="checkContainer blanco">'+
 			        '<div class="status"></div>'+
-			        '<input id="pre-boda'+(i+1)+'" type="checkbox" name="pre-boda'+(i+1)+'">'+
-			        '<label for="pre-boda'+(i+1)+'">'+
+			        '<input id="'+$this.fiesta+'-boda'+(i+1)+'" type="checkbox" name="'+$this.fiesta+'-boda'+(i+1)+'">'+
+			        '<label for="'+$this.fiesta+'-boda'+(i+1)+'">'+
 			            '<span class="checkSquare"><span></span></span>'+
-			            '<p class="name">Asistirá a la pre-boda</p>'+
+			            '<p class="name">'+$this.lang_js['confirm-fiesta']+'</p>'+
+			        '</label>'+
+			    '</div>'+
+			    '<div class="checkContainer blanco">'+
+			        '<div class="status"></div>'+
+			        '<input id="autobus-boda'+(i+1)+'" type="checkbox" name="autobus-boda'+(i+1)+'">'+
+			        '<label for="autobus-boda'+(i+1)+'">'+
+			            '<span class="checkSquare"><span></span></span>'+
+			            '<p class="name">'+$this.lang_js['confirm-autobus']+'</p>'+
 			        '</label>'+
 			    '</div>'+
 			'</li>';
 		};
-	$($this.asistentes_ul).html(li_box);
-	//validar formulario
-	var validate_instance = new Form(this.form_id);
-	validate_instance.validation();
+		$($this.asistentes_ul).html(li_box);
+		//validar formulario
+		var validate_instance = new Form(this.form_id);
+		validate_instance.validation();
 	}
 
 	this.fill_select(10);
@@ -338,17 +375,123 @@ function error1 (data) {
 
 
 
-// SINGLE
-function initSingle () {
+
+
+
+
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ INIT TESTIGOS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+function initTestigos () {
+	var testigos = new TestigosLighBox();
+	var modal_lightbox = {
+		modal: '#modal-lightbox', //id of the modal (Required)
+		overlay : '#modal-overlay', //id of the overlay (Required)
+		btnClose : '#btn-close-lightbox', //id of the btn (Required)
+		messages : lista_messages,
+		htmlIn : true, //Booleano
+		ownCallback : true,
+  		callback : testigos.show_lightbox
+	}
+	modal_l = new Modal(modal_lightbox);
+}
+
+function TestigosLighBox () {
+	var $this = this;
+	var testigos_item = $('.testigo-item');
+
+	this.cargaLightBox = function(){
+		var title = $(this).data('title');
+		var content = $(this).data('content');
+		var img = $(this).data('img');
+
+		$('#img-lightbox').attr('src',img);
+		$('#title-lightbox').html(title);
+		$('#content-lightbox').html(content);
+
+		modal_l.modal_show();
+	}
+
+	this.show_lightbox = function(){
+
+	}
+
+	testigos_item.on('click',$this.cargaLightBox);
 }
 
 
-//SINGLE
-function Single (_list,_article) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++ SUGERENCIAS EN PARIS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+function initSugerencias () {
+	var sugerencias = new Sugerencias();
 }
 
+function Sugerencias () {
+	var $this = this;
+	this.datos = {
+		'brunch' : json_brunch,
+		'comer' : json_comer,
+		'cenar' : json_cenar,
+		'copa' : json_copa,
+		'fiesta' : json_fiesta,
+		'visitas' : json_visitas,
+	}
+	this.ul = $('#sugerencias-ul');
+	this.li = $('#sugerencias-ul li');
+
+	this.cargaSugerencias = function(){
+		var id = $(this).data('id');
+		var data_current = $this.datos[id];
+		//activa y resee li
+		$this.li.removeClass('activo');
+		$(this).addClass('activo');
+		//pinta la tabla
+		$this.pinta_tabla(data_current)
+	}
+
+	this.pinta_tabla = function(response){
+		var tbody = "";
+		for (var i = 0; i < response.length; i++) {
+			tbody += ""+
+			"<tr>"+
+				"<td>"+response[i]["nombre"]+"</td>"+
+				"<td>"+response[i]["tipo"]+"</td>"+
+				"<td>"+response[i]["barrio"]+"</td>"+
+				"<td>"+response[i]["precio"]+"</td>"+
+				"<td>"+response[i]["comentario"]+"</td>"+
+				"<td>"+response[i]["direccion"]+"</td>"+
+			"</tr>";
+		};
+		$('#tbody').html(tbody)
+	}
 
 
+	//INITS
+	this.li.on('click',this.cargaSugerencias);
+	this.pinta_tabla(this.datos['brunch']);
+
+}
 
 
 
@@ -420,7 +563,8 @@ function Utiles(){
 	}
 	this.setAlto = function(who){
 		$(who).height($this.altoW);
-		this.redidensiona(who);
+		(!this.mobilecheck()) ? this.redidensiona(who) : null ;
+		
 	}
 
 
@@ -473,7 +617,8 @@ function Form (_form_id) {
 	    		{
 	    			"name" : $('#nombre'+(i+1)).val(), 
 	    			"pre-boda" : $('#pre-boda'+(i+1)).is(':checked'),
-	    			"post-boda" : $('#post-boda'+(i+1)).is(':checked')
+	    			"post-boda" : $('#post-boda'+(i+1)).is(':checked'),
+	    			"autobus-boda" : $('#autobus-boda'+(i+1)).is(':checked')
 	    		}
 	    	);
 	    };
@@ -482,6 +627,7 @@ function Form (_form_id) {
 	    	"asistentes" : asistentes,
 	    	"email" : $('#email-confirmar').val(),
 	    	"tel" : $('#phone-confirmar').val(),
+	    	"cancion" : $('#cancion').val(),
 	    	"key" : $('#key').val()
 	    }
 

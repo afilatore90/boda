@@ -18,8 +18,10 @@ get_header();
 					<th>Nombre</th>
 					<th>Pre-boda</th>
 					<th>Post-boda</th>
+					<th>Autobús</th>
 					<th>Email</th>
 					<th>Teléfono</th>
+					<th>Canción</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,8 +32,10 @@ get_header();
 							<td><?= $value["name"]?></td>	
 							<td><?= $value["pre_boda"]?></td>	
 							<td><?= $value["post_boda"]?></td>	
+							<td><?= $value["autobus"]?></td>	
 							<td><?= $value["email"]?></td>	
 							<td><?= $value["tel"]?></td>	
+							<td><?= $value["cancion"]?></td>	
 						</tr>	
 					<?}	
 				?>			

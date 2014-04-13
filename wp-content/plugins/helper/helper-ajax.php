@@ -23,13 +23,17 @@ class HelperAjax{
 					'name' => $value["name"], 
 					'pre_boda' => ($value["pre-boda"] == 'true') ? 1 : 0, 
 					'post_boda' => ($value["post-boda"] == 'true') ? 1 : 0,
+					'autobus' => ($value["autobus-boda"] == 'true') ? 1 : 0,
 					'email' => $arr['email'],
+					'cancion' => $arr['cancion'],
 					'tel' => $arr['tel']
 				), 
 				array( 
 					'%s', 
 					'%d', 
 					'%d',
+					'%d',
+					'%s',
 					'%s',
 					'%s' 
 				) 
